@@ -13,11 +13,13 @@ go:
 
 go_import_path: github.com/TuneLab/go-truss
 
-# Attempt to build a truss-build image, run it to build docker
+# Attempt to build a truss-build image, run it to build docker image for
+# building Truss, then run that image to actually build truss.
 before_install:
   - make build-docker-build
   - make docker-build
 
+# Use the output of the truss-build image run to build the truss runtime image.
 install:
   - make build-docker-run
 
