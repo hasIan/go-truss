@@ -10,6 +10,16 @@
 # cleaner than stringing together a bunch of commands in a Dockerfile CMD
 # directive.
 
+# Ensure that the build output directory already exists. We can't safely create
+# it from this script inside the container or else we could end up with a directory
+# owned by root on the host filesystem, when the host is a Linux system. So, bail
+# out if the build directory doesn't exist.
+if [ ! -d build ]; then
+    echo "error: build/ output directory cannot be created inside container:"
+    echo "create the build directory manually, or use 'make docker-build'"
+    exit 1
+fi
+
 # Build the truss binary and our protoc plugin.
 go build -o build/truss $TRUSS_REPO/truss
 go build -o build/$PROTO_GEN_TRUSS $TRUSS_REPO/$PROTO_GEN_TRUSS

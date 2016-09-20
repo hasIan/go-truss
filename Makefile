@@ -20,11 +20,15 @@ build-docker-build:
 # the other executables required by truss at runtime and puts everything in a
 # build/ subdirectory. These executables will be used when building the runtime
 # image.
+#
+# Create the build/ directory here to avoid trouble with it being owned by root
+# when created within the container when the host system is Linux.
 docker-build: clean
+	-@mkdir build 2>/dev/null
 	docker run --rm -v ${PWD}:$(DOCKER_TRUSS_HOME) $(DOCKER_BUILD_IMAGE_NAME)
 
 # build-docker-run builds the truss-run runtime image. It makes the assumption
-# that the truss-build image has been run and places its output in the build/
+# that the truss-build image has been run and placed its output in the build/
 # directory, and will place these binaries inside a runtime image.
 build-docker-run:
 	@if [ ! -d build ]; then echo "error: no build output directory"; exit 1; fi
