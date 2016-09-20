@@ -37,12 +37,7 @@ RUN apt-get update \
     && apt-get install -y ca-certificates wget unzip git \
     && update-ca-certificates \
     && go version \
-    && go get -u -v github.com/lightstep/lightstep-tracer-go \
-        github.com/opentracing/opentracing-go \
-        github.com/openzipkin/zipkin-go-opentracing \
-        github.com/prometheus/client_golang/prometheus \
-        github.com/sourcegraph/appdash/opentracing \
-        github.com/golang/protobuf/proto \
+    && go get -u -v github.com/golang/protobuf/proto \
         github.com/golang/protobuf/protoc-gen-go \
         github.com/go-kit/kit/...
 
